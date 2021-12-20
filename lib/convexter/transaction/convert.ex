@@ -1,4 +1,5 @@
 defmodule Convexter.Transaction.Convert do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
 
