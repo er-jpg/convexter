@@ -6,6 +6,7 @@ defmodule Convexter.Repo.Migrations.CreateConversions do
       add :id, :uuid, primary_key: true
       add :id_user, :string
       add :origin_value, :decimal
+      add :target_value, :decimal
       add :conversion_tax, :decimal
 
       timestamps()
