@@ -7,6 +7,12 @@ defmodule ConvexterWeb.Router do
 
   scope "/api", ConvexterWeb do
     pipe_through :api
+
+    scope "/conversions" do
+      get "/", ConvertController, :index
+      post "/", ConvertController, :convert
+      get "/:id_user", ConvertController, :get_by_user
+    end
   end
 
   # Enables LiveDashboard only for development

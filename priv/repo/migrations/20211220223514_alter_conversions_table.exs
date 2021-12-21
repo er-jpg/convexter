@@ -3,7 +3,7 @@ defmodule Convexter.Repo.Migrations.AlterConversionsTable do
 
   def change do
     execute "DROP TYPE IF EXISTS currency;"
-    execute "CREATE TYPE currency AS ENUM ('brl', 'usd', 'eur', 'jpy');"
+    execute "CREATE TYPE currency AS ENUM ('BRL', 'USD', 'EUR', 'JPY');"
 
     alter table(:conversions) do
       add_if_not_exists(:origin_currency, :currency)

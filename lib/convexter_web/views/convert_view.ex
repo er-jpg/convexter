@@ -15,7 +15,11 @@ defmodule ConvexterWeb.ConvertView do
       id: convert.id,
       id_user: convert.id_user,
       origin_value: convert.origin_value,
-      conversion_tax: convert.conversion_tax
+      origin_currency: convert.origin_currency,
+      target_currency: convert.target_currency,
+      conversion_tax: convert.conversion_tax,
+      target_value: convert.target_value,
+      conversion_date: convert.inserted_at
     }
   end
 end

@@ -19,26 +19,39 @@ defmodule Convexter.Transaction do
 
   """
   def list_conversions do
-    Convert
-    |> where([c], not c.hidden)
+    base_list_query()
     |> Repo.all()
   end
 
   @doc """
-  Gets a single convert.
+  Returns the list of conversions from the given `id_user`.
+
+    ## Examples
+
+        iex> list_conversions("value")
+        [%Convert{}, ...]
+  """
+  def list_conversions_by_user(id_user) do
+    base_list_query()
+    |> where([c], c.id_user == ^id_user)
+    |> Repo.all()
+  end
+
+  @doc """
+  Gets a single conversion.
 
   Raises `Ecto.NoResultsError` if the Convert does not exist.
 
   ## Examples
 
-      iex> get_convert!(123)
+      iex> get_conversion!(123)
       %Convert{}
 
-      iex> get_convert!(456)
+      iex> get_conversion!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_convert!(id), do: Repo.get!(Convert, id)
+  def get_conversion!(id), do: Repo.get!(Convert, id)
 
   @doc """
   Creates a convert.
@@ -48,8 +61,8 @@ defmodule Convexter.Transaction do
       iex> create_conversion(%{
           id_user: "id",
           origin_value: 100,
-          origin_currency: :brl,
-          target_currency: :usd,
+          origin_currency: :BRL,
+          target_currency: :USD,
           conversion_tax: 0.10
         })
       {:ok, %Convert{}}
@@ -61,6 +74,7 @@ defmodule Convexter.Transaction do
   def create_conversion(attrs \\ %{}) do
     %Convert{}
     |> Convert.changeset(attrs)
+    |> Convert.add_value(&convert_currency/3)
     |> Repo.insert()
   end
 
@@ -104,8 +118,8 @@ defmodule Convexter.Transaction do
       when base_currency == target_currency,
       do: {:ok, value}
 
-  def convert_currency(value, target_currency, "USD" = base_currency) do
-    map_key = base_currency <> target_currency
+  def convert_currency(value, target_currency, :USD = base_currency) do
+    map_key = to_string(base_currency) <> to_string(target_currency)
 
     Date.utc_today()
     |> Currencylayer.get_historical_date(target_currency)
@@ -116,8 +130,8 @@ defmodule Convexter.Transaction do
     end
   end
 
-  def convert_currency(value, "USD" = base_currency, target_currency) do
-    map_key = base_currency <> target_currency
+  def convert_currency(value, :USD = base_currency, target_currency) do
+    map_key = to_string(base_currency) <> to_string(target_currency)
 
     Date.utc_today()
     |> Currencylayer.get_historical_date(target_currency)
@@ -128,5 +142,14 @@ defmodule Convexter.Transaction do
     end
   end
 
-  defp calculate_quota(value, quota), do: value * quota
+  defp calculate_quota(value, quota) do
+    quota
+    |> Decimal.from_float()
+    |> Decimal.mult(value)
+  end
+
+  defp base_list_query do
+    Convert
+    |> where([c], not c.hidden)
+  end
 end

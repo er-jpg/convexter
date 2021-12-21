@@ -11,17 +11,21 @@ defmodule ConvexterWeb.ConvertController do
     render(conn, "index.json", conversions: conversions)
   end
 
-  def create(conn, %{"convert" => convert_params}) do
-    with {:ok, %Convert{} = convert} <- Transaction.create_convert(convert_params) do
+  def convert(conn, params) do
+    with {:ok, %Convert{} = convert} <- Transaction.create_conversion(params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.convert_path(conn, :show, convert))
       |> render("show.json", convert: convert)
     end
   end
 
+  def get_by_user(conn, %{"id_user" => user_id}) do
+    conversions = Transaction.list_conversions_by_user(user_id)
+    render(conn, "index.json", conversions: conversions)
+  end
+
   def show(conn, %{"id" => id}) do
-    convert = Transaction.get_convert!(id)
+    convert = Transaction.get_conversion!(id)
     render(conn, "show.json", convert: convert)
   end
 
