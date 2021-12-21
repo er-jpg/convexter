@@ -19,7 +19,9 @@ defmodule Convexter.Transaction do
 
   """
   def list_conversions do
-    Repo.all(Convert)
+    Convert
+    |> where([c], not c.hidden)
+    |> Repo.all()
   end
 
   @doc """
@@ -63,50 +65,22 @@ defmodule Convexter.Transaction do
   end
 
   @doc """
-  Updates a convert.
+  Hides a conversion.
 
   ## Examples
 
-      iex> update_convert(convert, %{field: new_value})
+      iex> toggle_conversion(conversion)
       {:ok, %Convert{}}
 
-      iex> update_convert(convert, %{field: bad_value})
+      iex> toggle_conversion(convert)
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_convert(%Convert{} = convert, attrs) do
+  def toggle_conversion(%Convert{} = convert) do
     convert
-    |> Convert.changeset(attrs)
+    |> Convert.changeset(%{})
+    |> Convert.toggle_visibility()
     |> Repo.update()
-  end
-
-  @doc """
-  Deletes a convert.
-
-  ## Examples
-
-      iex> delete_convert(convert)
-      {:ok, %Convert{}}
-
-      iex> delete_convert(convert)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_convert(%Convert{} = convert) do
-    Repo.delete(convert)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking convert changes.
-
-  ## Examples
-
-      iex> change_convert(convert)
-      %Ecto.Changeset{data: %Convert{}}
-
-  """
-  def change_convert(%Convert{} = convert, attrs \\ %{}) do
-    Convert.changeset(convert, attrs)
   end
 
   @doc """
