@@ -47,7 +47,7 @@ defmodule Convexter.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:tesla, "~> 1.4"},
-      {:hackney, "~> 1.17"}
+      {:vapor, "~> 0.10"}
     ]
   end
 

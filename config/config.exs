@@ -47,8 +47,10 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-# Configuration for Tesla Adapter
-config :tesla, adapter: {Tesla.Adapter.Hackney, [recv_timeout: 30_000]}
+# Configuration for currencylayer API
+config :convexter, Convexter.Currencylayer,
+  currencylayer_access_key: System.get_env("CURRENCYLAYER_KEY", ""),
+  currencylayer_url: System.get_env("CURRENCYLAYER_URL", "")
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

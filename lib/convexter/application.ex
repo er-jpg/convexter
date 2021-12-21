@@ -5,8 +5,13 @@ defmodule Convexter.Application do
 
   use Application
 
+  alias Vapor.Provider
+  alias Vapor.Provider.Dotenv
+
   @impl true
   def start(_type, _args) do
+    Provider.load(%Dotenv{overwrite: true})
+
     children = [
       # Start the Ecto repository
       Convexter.Repo,

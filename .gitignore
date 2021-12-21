@@ -32,3 +32,5 @@ convexter-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Enviroment files
+.env
