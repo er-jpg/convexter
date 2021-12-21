@@ -43,14 +43,20 @@ defmodule Convexter.Transaction do
 
   ## Examples
 
-      iex> create_convert(%{field: value})
+      iex> create_conversion(%{
+          id_user: "id",
+          origin_value: 100,
+          origin_currency: :brl,
+          target_currency: :usd,
+          conversion_tax: 0.10
+        })
       {:ok, %Convert{}}
 
-      iex> create_convert(%{field: bad_value})
+      iex> create_conversion(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_convert(attrs \\ %{}) do
+  def create_conversion(attrs \\ %{}) do
     %Convert{}
     |> Convert.changeset(attrs)
     |> Repo.insert()

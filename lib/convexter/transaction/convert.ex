@@ -5,6 +5,8 @@ defmodule Convexter.Transaction.Convert do
 
   @primary_key {:id, :binary_id, autogenerate: true}
 
+  @params ~w(conversion_tax id_user origin_value target_value origin_currency target_currency)a
+
   schema "conversions" do
     field :conversion_tax, :decimal
     field :id_user, :string
@@ -19,7 +21,7 @@ defmodule Convexter.Transaction.Convert do
   @doc false
   def changeset(convert, attrs) do
     convert
-    |> cast(attrs, [:id_user, :origin_value, :conversion_tax])
-    |> validate_required([:id_user, :origin_value, :conversion_tax])
+    |> cast(attrs, @params)
+    |> validate_required(@params)
   end
 end

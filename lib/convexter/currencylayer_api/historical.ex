@@ -12,13 +12,13 @@ defmodule Convexter.Currencylayer.Historical do
        Application.get_env(:convexter, Convexter.Currencylayer)[:currencylayer_url]
 
   @route "/historical"
-  @access_key Application.get_env(:convexter, Convexter.Currencylayer)[:currencylayer_access_key]
 
   def call(date, origin_currency) do
     @route
     |> get(
       query: [
-        access_key: @access_key,
+        access_key:
+          Application.get_env(:convexter, Convexter.Currencylayer)[:currencylayer_access_key],
         date: date,
         currencies: "#{origin_currency}"
       ]
