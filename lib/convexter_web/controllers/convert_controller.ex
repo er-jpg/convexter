@@ -29,18 +29,10 @@ defmodule ConvexterWeb.ConvertController do
     render(conn, "show.json", convert: convert)
   end
 
-  def update(conn, %{"id" => id, "convert" => convert_params}) do
-    convert = Transaction.get_convert!(id)
+  def toggle(conn, %{"id" => id}) do
+    convert = Transaction.get_conversion!(id)
 
-    with {:ok, %Convert{} = convert} <- Transaction.update_convert(convert, convert_params) do
-      render(conn, "show.json", convert: convert)
-    end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    convert = Transaction.get_convert!(id)
-
-    with {:ok, %Convert{}} <- Transaction.delete_convert(convert) do
+    with {:ok, %Convert{}} <- Transaction.toggle_conversion(convert) do
       send_resp(conn, :no_content, "")
     end
   end

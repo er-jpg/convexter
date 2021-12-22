@@ -17,8 +17,7 @@ defmodule Convexter.Currencylayer.Historical do
     @route
     |> get(
       query: [
-        access_key:
-          Application.get_env(:convexter, Convexter.Currencylayer)[:currencylayer_access_key],
+        access_key: get_access_key(),
         date: date,
         currencies: "#{origin_currency}"
       ]
@@ -26,11 +25,19 @@ defmodule Convexter.Currencylayer.Historical do
     |> handle_response()
   end
 
+  defp get_access_key() do
+    case Application.get_env(:convexter, Convexter.Currencylayer)[:currencylayer_access_key] do
+      "" -> raise "currencylayer_access_key env not set"
+      nil -> raise "currencylayer_access_key env not set"
+      string -> string
+    end
+  end
+
   defp handle_response({:ok, %Tesla.Env{body: %{"quotes" => quotes}, status: 200}}),
     do: {:ok, quotes}
 
-  defp handle_response({:ok, %Tesla.Env{body: body, status: status}}),
-    do: {:error, "#{status} #{body}"}
+  defp handle_response({:ok, %Tesla.Env{body: %{"error" => %{"info" => message}}}}),
+    do: {:error, message}
 
   defp handle_response({:error, _reason} = error), do: error
 end
