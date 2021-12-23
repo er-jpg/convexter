@@ -10,7 +10,9 @@ defmodule Convexter.MixProject do
       compilers: [:gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [coveralls: :test]
     ]
   end
 
@@ -47,7 +49,9 @@ defmodule Convexter.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:tesla, "~> 1.4"},
-      {:vapor, "~> 0.10"}
+      {:vapor, "~> 0.10"},
+      {:mox, "~> 1.0", only: :test},
+      {:excoveralls, "~> 0.14", only: :test}
     ]
   end
 
