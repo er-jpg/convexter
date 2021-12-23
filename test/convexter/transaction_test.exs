@@ -15,6 +15,23 @@ defmodule Convexter.TransactionTest do
 
     @invalid_attrs %{conversion_tax: nil, id_user: nil, origin_value: nil}
 
+    test "list_conversions_by_user/0 returns all conversions by an user" do
+      expect(Convexter.Currencylayer.Historical, :call, 2, fn _env, _opts ->
+        {:ok, %{"USDBRL" => 5.667398}}
+      end)
+
+      convert_1 = convert_fixture(%{id_user: "asd"})
+      convert_2 = convert_fixture(%{id_user: "test_user"})
+
+      assert Transaction.list_conversions_by_user("asd") == [convert_1]
+      refute Transaction.list_conversions_by_user("test_user") == [convert_1]
+
+      refute Enum.member?(Transaction.list_conversions_by_user("invalid_name"), [
+               convert_1,
+               convert_2
+             ])
+    end
+
     test "list_conversions/0 returns all conversions" do
       expect(Convexter.Currencylayer.Historical, :call, fn _env, _opts ->
         {:ok, %{"USDBRL" => 5.667398}}
