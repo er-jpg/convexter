@@ -25,7 +25,7 @@ defmodule Convexter.Currencylayer.Historical do
     |> handle_response()
   end
 
-  defp get_access_key() do
+  defp get_access_key do
     case Application.get_env(:convexter, Convexter.Currencylayer)[:currencylayer_access_key] do
       "" -> raise "currencylayer_access_key env not set"
       nil -> raise "currencylayer_access_key env not set"
