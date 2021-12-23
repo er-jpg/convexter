@@ -15,6 +15,16 @@ defmodule Convexter.TransactionTest do
 
     @invalid_attrs %{conversion_tax: nil, id_user: nil, origin_value: nil}
 
+    test "list_conversions/0 returns all conversions" do
+      expect(Convexter.Currencylayer.Historical, :call, fn _env, _opts ->
+        {:ok, %{"USDBRL" => 5.667398}}
+      end)
+
+      convert = convert_fixture()
+
+      assert Transaction.list_conversions() == [convert]
+    end
+
     test "list_conversions_by_user/0 returns all conversions by an user" do
       expect(Convexter.Currencylayer.Historical, :call, 2, fn _env, _opts ->
         {:ok, %{"USDBRL" => 5.667398}}
@@ -32,16 +42,6 @@ defmodule Convexter.TransactionTest do
              ])
     end
 
-    test "list_conversions/0 returns all conversions" do
-      expect(Convexter.Currencylayer.Historical, :call, fn _env, _opts ->
-        {:ok, %{"USDBRL" => 5.667398}}
-      end)
-
-      convert = convert_fixture()
-
-      assert Transaction.list_conversions() == [convert]
-    end
-
     test "get_conversion!/1 returns the convert with given id" do
       expect(Convexter.Currencylayer.Historical, :call, fn _env, _opts ->
         {:ok, %{"USDBRL" => 5.667398}}
@@ -54,7 +54,7 @@ defmodule Convexter.TransactionTest do
 
     test "create_conversion/1 with valid data creates a convert" do
       expect(Convexter.Currencylayer.Historical, :call, fn _env, _opts ->
-        {:ok, %{"USDBRL" => 5.0}}
+        {:ok, %{"USDBRL" => 5.00}}
       end)
 
       valid_attrs = %{
@@ -88,10 +88,45 @@ defmodule Convexter.TransactionTest do
       assert_raise Ecto.NoResultsError, fn -> Transaction.get_conversion!(convert.id) end
     end
 
-    #   test "change_convert/1 returns a convert changeset" do
-    #     convert = convert_fixture()
+    test "convert_currency/3 with same currency data returns the same value" do
+      value = Decimal.new(100)
+      base_currency = :USD
+      target_currency = :USD
 
-    #     assert %Ecto.Changeset{} = Transaction.change_convert(convert)
-    #   end
+      assert {:ok, target_value} =
+               Transaction.convert_currency(value, base_currency, target_currency)
+
+      assert 100.00 == Decimal.to_float(target_value)
+    end
+
+    test "convert_currency/3 with different currency data (USD -> BRL) returns the conversion rate" do
+      expect(Convexter.Currencylayer.Historical, :call, fn _env, _opts ->
+        {:ok, %{"USDBRL" => 2.0}}
+      end)
+
+      value = Decimal.new(100)
+      base_currency = :USD
+      target_currency = :BRL
+
+      assert {:ok, target_value} =
+               Transaction.convert_currency(value, base_currency, target_currency)
+
+      assert 200.00 == Decimal.to_float(target_value)
+    end
+
+    test "convert_currency/3 with different currency data (BRL -> USD) returns the conversion rate" do
+      expect(Convexter.Currencylayer.Historical, :call, fn _env, _opts ->
+        {:ok, %{"USDBRL" => 2.0}}
+      end)
+
+      value = Decimal.new(100)
+      base_currency = :USD
+      target_currency = :BRL
+
+      assert {:ok, target_value} =
+               Transaction.convert_currency(value, base_currency, target_currency)
+
+      assert 200.00 == Decimal.to_float(target_value)
+    end
   end
 end
