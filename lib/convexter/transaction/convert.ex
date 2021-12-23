@@ -27,17 +27,6 @@ defmodule Convexter.Transaction.Convert do
   end
 
   @doc false
-  def toggle_visibility(convert) do
-    hidden? = get_field(convert, :hidden)
-
-    if is_nil(hidden?) do
-      put_change(convert, :hidden, !hidden?)
-    else
-      convert
-    end
-  end
-
-  @doc false
   def add_value(%Ecto.Changeset{} = schema, conversion_function) do
     struct = apply_changes(schema)
 

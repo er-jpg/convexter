@@ -51,7 +51,11 @@ defmodule Convexter.Transaction do
       ** (Ecto.NoResultsError)
 
   """
-  def get_conversion!(id), do: Repo.get!(Convert, id)
+  def get_conversion!(id) do
+    base_list_query()
+    |> where([c], c.id == ^id)
+    |> Repo.one!()
+  end
 
   @doc """
   Creates a convert.
@@ -92,8 +96,7 @@ defmodule Convexter.Transaction do
   """
   def toggle_conversion(%Convert{} = convert) do
     convert
-    |> Convert.changeset(%{})
-    |> Convert.toggle_visibility()
+    |> Convert.changeset(%{hidden: true})
     |> Repo.update()
   end
 
