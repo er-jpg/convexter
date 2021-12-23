@@ -121,8 +121,8 @@ defmodule Convexter.Transaction do
   def convert_currency(value, target_currency, :USD = base_currency) do
     map_key = to_string(base_currency) <> to_string(target_currency)
 
-    Date.utc_today()
-    |> Currencylayer.get_historical_date(target_currency)
+    target_currency
+    |> Currencylayer.get_historical_date()
     |> case do
       {:ok, %{^map_key => quota}} -> {:ok, calculate_quota(value, 1 / quota)}
       {:ok, _quota} -> {:error, :quota_not_found}
@@ -133,8 +133,8 @@ defmodule Convexter.Transaction do
   def convert_currency(value, :USD = base_currency, target_currency) do
     map_key = to_string(base_currency) <> to_string(target_currency)
 
-    Date.utc_today()
-    |> Currencylayer.get_historical_date(target_currency)
+    target_currency
+    |> Currencylayer.get_historical_date()
     |> case do
       {:ok, %{^map_key => quota}} -> {:ok, calculate_quota(value, quota)}
       {:ok, _quota} -> {:error, :quota_not_found}
