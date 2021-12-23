@@ -5,6 +5,8 @@ defmodule Convexter.Currencylayer.Historical do
 
   use Tesla
 
+  @behaviour Convexter.Currencylayer.HistoricalBehaviour
+
   plug Tesla.Middleware.Headers, [{"Content-Type", "application/json"}]
   plug Tesla.Middleware.JSON
 
