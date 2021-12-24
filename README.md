@@ -71,25 +71,24 @@ COV    FILE                                        LINES RELEVANT   MISSED
   0.0% lib/convexter/currencylayer_api/behaviou        3        0        0
   0.0% lib/convexter/mailer.ex                         4        0        0
   0.0% lib/convexter/repo.ex                           5        0        0
- 42.1% lib/convexter/transaction.ex                  155       19       11
- 61.5% lib/convexter/transaction/convert.ex           53       13        5
+ 65.0% lib/convexter/transaction.ex                  158       20        7
+ 88.9% lib/convexter/transaction/convert.ex           42        9        1
   0.0% lib/convexter_web.ex                           78        1        1
- 18.2% lib/convexter_web/controllers/convert_co       39       11        9
-  0.0% lib/convexter_web/controllers/fallback_c       24        2        2
+ 81.8% lib/convexter_web/controllers/convert_co       39       11        2
+ 50.0% lib/convexter_web/controllers/fallback_c       24        2        1
   0.0% lib/convexter_web/endpoint.ex                  48        0        0
   0.0% lib/convexter_web/gettext.ex                   24        0        0
- 40.0% lib/convexter_web/router.ex                    45        5        3
+ 83.3% lib/convexter_web/router.ex                    46        6        1
  80.0% lib/convexter_web/telemetry.ex                 72        5        1
-  0.0% lib/convexter_web/views/changeset_view.e       19        2        2
-  9.1% lib/convexter_web/views/convert_view.ex        25       11       10
-  0.0% lib/convexter_web/views/error_helpers.ex       33        3        3
+100.0% lib/convexter_web/views/changeset_view.e       19        2        0
+100.0% lib/convexter_web/views/convert_view.ex        25       11        0
+ 66.7% lib/convexter_web/views/error_helpers.ex       33        3        1
 100.0% lib/convexter_web/views/error_view.ex          16        1        0
-  0.0% lib/util/util.ex                               17        4        4
   0.0% test/support/channel_case.ex                   36        3        3
 100.0% test/support/conn_case.ex                      39        3        0
  50.0% test/support/data_case.ex                      51        6        3
 100.0% test/support/fixtures/transaction_fixtur       25        2        0
-[TOTAL]  40.2%
+[TOTAL]  75.8%
 ```
 
 ### Lint
