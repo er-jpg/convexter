@@ -18,7 +18,7 @@ defmodule Convexter.CurrencylayerTest do
 
       date = Date.utc_today()
 
-      assert {:ok, conversion_quota} = Currencylayer.Historical.call(date, :BRL)
+      assert {:ok, conversion_quota} == Currencylayer.Historical.call(date, :BRL)
     end
   end
 end

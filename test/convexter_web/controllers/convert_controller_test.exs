@@ -16,11 +16,6 @@ defmodule ConvexterWeb.ConvertControllerTest do
     origin_currency: :USD,
     target_currency: :BRL
   }
-  @update_attrs %{
-    conversion_tax: "456.7",
-    id_user: "some updated id_user",
-    origin_value: "456.7"
-  }
   @invalid_attrs %{conversion_tax: nil, id_user: nil, origin_value: nil}
 
   setup %{conn: conn} do
@@ -64,43 +59,48 @@ defmodule ConvexterWeb.ConvertControllerTest do
     end
   end
 
-  # describe "toggle convert" do
-  #   setup [:create_conversion]
+  describe "toggle convert" do
+    setup [:create_convert]
 
-  #   test "renders convert when data is valid", %{conn: conn, convert: %Convert{id: id} = convert} do
-  #     conn = put(conn, Routes.convert_path(conn, :update, convert), convert: @update_attrs)
-  #     assert %{"id" => ^id} = json_response(conn, 200)["data"]
+    test "renders convert when data is valid", %{conn: conn, convert: %Convert{id: id} = convert} do
+      conn = delete(conn, Routes.convert_path(conn, :toggle, convert), id: id)
 
-  #     conn = get(conn, Routes.convert_path(conn, :show, id))
+      assert response(conn, 204)
 
-  #     assert %{
-  #              "id" => ^id,
-  #              "conversion_tax" => "456.7",
-  #              "id_user" => "some updated id_user",
-  #              "origin_value" => "456.7"
-  #            } = json_response(conn, 200)["data"]
-  #   end
+      conn = get(conn, Routes.convert_path(conn, :index))
 
-  #   test "renders errors when data is invalid", %{conn: conn, convert: convert} do
-  #     conn = put(conn, Routes.convert_path(conn, :update, convert), convert: @invalid_attrs)
-  #     assert json_response(conn, 422)["errors"] != %{}
-  #   end
-  # end
+      assert [] = json_response(conn, 200)["data"]
+    end
+  end
 
-  # describe "delete convert" do
-  #   setup [:create_convert]
+  describe "get by user" do
+    setup [:create_convert]
 
-  #   test "deletes chosen convert", %{conn: conn, convert: convert} do
-  #     conn = delete(conn, Routes.convert_path(conn, :delete, convert))
-  #     assert response(conn, 204)
+    test "render convert by the user", %{
+      conn: conn,
+      convert: %Convert{id_user: id_user, id: id}
+    } do
+      conn = get(conn, Routes.convert_path(conn, :get_by_user, id_user))
 
-  #     assert_error_sent 404, fn ->
-  #       get(conn, Routes.convert_path(conn, :show, convert))
-  #     end
-  #   end
-  # end
+      assert [
+               %{
+                 "id" => ^id,
+                 "conversion_tax" => "120.5",
+                 "id_user" => ^id_user,
+                 "origin_value" => "120.5",
+                 "target_value" => "662.75",
+                 "origin_currency" => "USD",
+                 "target_currency" => "BRL"
+               }
+             ] = json_response(conn, 200)["data"]
+    end
+  end
 
   defp create_convert(_) do
+    expect(Convexter.Currencylayer.Historical, :call, fn _env, _opts ->
+      {:ok, %{"USDBRL" => 5.50}}
+    end)
+
     convert = convert_fixture()
 
     %{convert: convert}
