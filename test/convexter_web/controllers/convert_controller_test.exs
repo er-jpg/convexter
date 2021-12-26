@@ -85,12 +85,13 @@ defmodule ConvexterWeb.ConvertControllerTest do
       assert [
                %{
                  "id" => ^id,
-                 "conversion_tax" => "120.5",
+                 "conversion_tax" => "0.10",
                  "id_user" => ^id_user,
                  "origin_value" => "120.5",
                  "target_value" => "662.75",
                  "origin_currency" => "USD",
-                 "target_currency" => "BRL"
+                 "target_currency" => "BRL",
+                 "total_value" => "729.0250"
                }
              ] = json_response(conn, 200)["data"]
     end

@@ -11,7 +11,7 @@ defmodule Convexter.TransactionFixtures do
     {:ok, convert} =
       attrs
       |> Enum.into(%{
-        conversion_tax: "120.5",
+        conversion_tax: "0.10",
         id_user: "some id_user",
         origin_value: "120.5",
         origin_currency: :USD,
