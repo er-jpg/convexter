@@ -33,6 +33,11 @@ Requiments:
       * `[GET]/transactions`
       * `[GET]/transactions/:user_id`
 
+## Demo
+The demo of this application can be found deployed at [Gigalixir](https://www.gigalixir.com/), it's using the Free Tier version, the app url can be found at `https://convexter.gigalixirapp.com/`.
+
+In the [Insomnia_collection.json](Insomnia_collection.json) you can change the enviroment to `gigalixir` and try it out.
+
 ## Installation
 
 To start your Convexter server:
