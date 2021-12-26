@@ -28,4 +28,7 @@ jobs:
           GIGALIXIR_USERNAME: ${{ secrets.GIGALIXIR_USERNAME }}
           GIGALIXIR_PASSWORD: ${{ secrets.GIGALIXIR_PASSWORD }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          # run migrations manually for free tier of gigalixir with 
+          # gigalixir run mix ecto.migrate -a $APP_NAME
+          # gigalixir ps:migrate -a $APP_NAME
           MIGRATIONS: false 

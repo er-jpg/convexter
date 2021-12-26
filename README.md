@@ -1,5 +1,9 @@
 # Convexter
 
+![Credo](https://github.com/er-jpg/convexter/actions/workflows/credo.yml/badge.svg)
+![Test](https://github.com/er-jpg/convexter/actions/workflows/test.yml/badge.svg)
+![Deploy](https://github.com/er-jpg/convexter/actions/workflows/deploy.yml/badge.svg)
+
 Convexter is a simple currency conversion API.
 
 ## Use case
