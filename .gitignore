@@ -34,3 +34,4 @@ npm-debug.log
 
 # Enviroment files
 .env
+.venv

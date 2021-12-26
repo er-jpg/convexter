@@ -1,0 +1,31 @@
+name: CI deploy
+
+on:
+  workflow_run:
+    workflows: ["CI test"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+  
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+          fetch-depth: 0
+          
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.8.1
+          
+      - uses: mhanberg/gigalixir-action@v0.6.1
+        with:
+          GIGALIXIR_APP: ${{ secrets.GIGALIXIR_APP_NAME }}
+          GIGALIXIR_CLEAN: false # defaults to false
+          GIGALIXIR_USERNAME: ${{ secrets.GIGALIXIR_USERNAME }}
+          GIGALIXIR_PASSWORD: ${{ secrets.GIGALIXIR_PASSWORD }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          MIGRATIONS: true 
