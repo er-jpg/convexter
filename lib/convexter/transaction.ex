@@ -79,6 +79,7 @@ defmodule Convexter.Transaction do
     %Convert{}
     |> Convert.changeset(attrs)
     |> Convert.add_value(&convert_currency/3)
+    |> Convert.calculate_conversion_tax()
     |> Repo.insert()
   end
 
