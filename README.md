@@ -45,7 +45,7 @@ One of the new implementations of the api it's the `conversion_tax` that is the 
 
 ---
 
-## Diagrams
+## Information
 ### API
 The API uses the following schema as a service to get a new conversion from the external API
 
@@ -54,6 +54,8 @@ The API uses the following schema as a service to get a new conversion from the 
 </p>
 
 ### CI/CD
+Since this repo uses the free version of gigalixir which has a small pool size, the migrations are not used in github actions and instead should be run manually by the command `gigalixir ps:migrate -a $APP_NAME`, after any deploys with new migrations you should wait for the full deploy cycle and run the command above.
+
 The repo uses the following schema as a CI/CD for new merges into master
 
 <p align="center">
