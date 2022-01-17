@@ -13,7 +13,7 @@ defmodule Convexter.TransactionTest do
 
     import Convexter.TransactionFixtures
 
-    @invalid_attrs %{conversion_tax: nil, id_user: nil, origin_value: nil}
+    @invalid_attrs %{conversion_tax: Decimal.new(0), id_user: nil, origin_value: Decimal.new(0)}
 
     test "list_conversions/0 returns all conversions" do
       expect(Convexter.Currencylayer.Historical, :call, fn _env, _opts ->
@@ -77,14 +77,14 @@ defmodule Convexter.TransactionTest do
       assert {:error, %Ecto.Changeset{}} = Transaction.create_conversion(@invalid_attrs)
     end
 
-    test "toggle_conversion/1 hides the convert" do
+    test "hide_conversion/1 hides the convert" do
       expect(Convexter.Currencylayer.Historical, :call, fn _env, _opts ->
         {:ok, %{"USDBRL" => 5.667398}}
       end)
 
       convert = convert_fixture()
 
-      assert {:ok, %Convert{}} = Transaction.toggle_conversion(convert)
+      assert {:ok, %Convert{}} = Transaction.hide_conversion(convert)
       assert_raise Ecto.NoResultsError, fn -> Transaction.get_conversion!(convert.id) end
     end
 

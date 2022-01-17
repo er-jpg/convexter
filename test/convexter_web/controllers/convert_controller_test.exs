@@ -16,7 +16,7 @@ defmodule ConvexterWeb.ConvertControllerTest do
     origin_currency: :USD,
     target_currency: :BRL
   }
-  @invalid_attrs %{conversion_tax: nil, id_user: nil, origin_value: nil}
+  @invalid_attrs %{conversion_tax: Decimal.new(0), id_user: nil, origin_value: Decimal.new(0)}
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -80,7 +80,7 @@ defmodule ConvexterWeb.ConvertControllerTest do
       conn: conn,
       convert: %Convert{id_user: id_user, id: id}
     } do
-      conn = get(conn, Routes.convert_path(conn, :get_by_user, id_user))
+      conn = get(conn, Routes.convert_path(conn, :index, user_id: id_user))
 
       assert [
                %{
