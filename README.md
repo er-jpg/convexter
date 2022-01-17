@@ -45,10 +45,20 @@ One of the new implementations of the api it's the `conversion_tax` that is the 
 
 ---
 
-### Engineering
+## Diagrams
+### API
 The API uses the following schema as a service to get a new conversion from the external API
 
-![API Diagram](convexter.png "API Diagram")
+<p align="center">
+    <img src="convexter.png">
+</p>
+
+### CI/CD
+The repo uses the following schema as a CI/CD for new merges into master
+
+<p align="center">
+    <img src="convexter_ci-cd.png">
+</p>
 
 ## Demo
 The demo of this application can be found deployed at [Gigalixir](https://www.gigalixir.com/), it's using the Free Tier version, the app url can be found at `https://convexter.gigalixirapp.com/`.
@@ -124,9 +134,9 @@ Points to be refactored
 
   * ~~user_id param in `[GET]/conversions/:user_id` should be a query param~~
   * ~~diagram of the API concept in `README`~~
-  * CI/CD diagram of the application
+  * ~~CI/CD diagram of the application~~
   * ~~more explict desciption of new features~~
-  * remove logic from view
+  * ~~remove logic from view~~
 
 ## Learn more
 
@@ -135,3 +145,7 @@ Points to be refactored
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+---
+
+[Back to top](#)
