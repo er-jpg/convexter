@@ -30,12 +30,25 @@ Requiments:
       "originValue": 0.00,
       "targetValue": 0.00,
       "conversionTax": 0.000,
-      "conversionDateTime": "0000-00-00 00:00:00.000000"
+      "conversionDateTime": "0000-00-00 00:00:00.000000",
+      "total_value": "0.00"
   }
   ```
   5. Besides an endpoint to create a conversion, the following endpoints should exist:
       * `[GET]/conversions`
       * `[GET]/conversions/:user_id`
+    
+---
+**NOTE**
+
+One of the new implementations of the api it's the `conversion_tax` that is the tax of the given conversion on top of the external API, in an example, the conversion from 10 USD to BRL is 100 BRL, but the conversion tax is 0.10 (10%), the total value will be 110 BRL.
+
+---
+
+### Engineering
+The API uses the following schema as a service to get a new conversion from the external API
+
+![API Diagram](convexter.png "API Diagram")
 
 ## Demo
 The demo of this application can be found deployed at [Gigalixir](https://www.gigalixir.com/), it's using the Free Tier version, the app url can be found at `https://convexter.gigalixirapp.com/`.
@@ -110,8 +123,9 @@ Run code analysis with strict mode:
 Points to be refactored
 
   * ~~user_id param in `[GET]/conversions/:user_id` should be a query param~~
-  * diagram of the API concept in `README`
-  * more explict desciption of new features
+  * ~~diagram of the API concept in `README`~~
+  * CI/CD diagram of the application
+  * ~~more explict desciption of new features~~
   * remove logic from view
 
 ## Learn more
