@@ -12,7 +12,6 @@ defmodule ConvexterWeb.Router do
       get "/", ConvertController, :index
       post "/", ConvertController, :convert
       delete "/:id", ConvertController, :toggle
-      get "/:id_user", ConvertController, :get_by_user
     end
   end
 

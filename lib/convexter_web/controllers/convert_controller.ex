@@ -6,6 +6,11 @@ defmodule ConvexterWeb.ConvertController do
 
   action_fallback ConvexterWeb.FallbackController
 
+  def index(conn, %{"user_id" => user_id}) do
+    conversions = Transaction.list_conversions_by_user(user_id)
+    render(conn, "index.json", conversions: conversions)
+  end
+
   def index(conn, _params) do
     conversions = Transaction.list_conversions()
     render(conn, "index.json", conversions: conversions)
@@ -19,11 +24,6 @@ defmodule ConvexterWeb.ConvertController do
     end
   end
 
-  def get_by_user(conn, %{"id_user" => user_id}) do
-    conversions = Transaction.list_conversions_by_user(user_id)
-    render(conn, "index.json", conversions: conversions)
-  end
-
   def show(conn, %{"id" => id}) do
     convert = Transaction.get_conversion!(id)
     render(conn, "show.json", convert: convert)
@@ -32,7 +32,7 @@ defmodule ConvexterWeb.ConvertController do
   def toggle(conn, %{"id" => id}) do
     convert = Transaction.get_conversion!(id)
 
-    with {:ok, %Convert{}} <- Transaction.toggle_conversion(convert) do
+    with {:ok, %Convert{}} <- Transaction.hide_conversion(convert) do
       send_resp(conn, :no_content, "")
     end
   end

@@ -87,14 +87,14 @@ defmodule Convexter.Transaction do
 
   ## Examples
 
-      iex> toggle_conversion(conversion)
+      iex> hide_conversion(conversion)
       {:ok, %Convert{}}
 
-      iex> toggle_conversion(convert)
+      iex> hide_conversion(convert)
       {:error, %Ecto.Changeset{}}
 
   """
-  def toggle_conversion(%Convert{} = convert) do
+  def hide_conversion(%Convert{} = convert) do
     convert
     |> Convert.changeset(%{hidden: true})
     |> Repo.update()

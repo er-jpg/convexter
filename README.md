@@ -14,7 +14,7 @@ Requiments:
 
   1. Must be able to use the free version of the currencylayer api
   2. The base coin from the API is the USD
-  3. Transactions should persist in the database having the following schema:
+  3. Transactions should persist in the database having the following schema in the `[POST]/conversion`:
       * `user_id`
       * `origin_currency`
       * `target_currency`
@@ -34,8 +34,8 @@ Requiments:
   }
   ```
   5. Besides an endpoint to create a conversion, the following endpoints should exist:
-      * `[GET]/transactions`
-      * `[GET]/transactions/:user_id`
+      * `[GET]/conversions`
+      * `[GET]/conversions/:user_id`
 
 ## Demo
 The demo of this application can be found deployed at [Gigalixir](https://www.gigalixir.com/), it's using the Free Tier version, the app url can be found at `https://convexter.gigalixirapp.com/`.
@@ -104,6 +104,15 @@ COV    FILE                                        LINES RELEVANT   MISSED
 Run code analysis with strict mode:
 
   * Run `mix credo`
+
+
+### TODO
+Points to be refactored
+
+  * ~~user_id param in `[GET]/conversions/:user_id` should be a query param~~
+  * diagram of the API concept in `README`
+  * more explict desciption of new features
+  * remove logic from view
 
 ## Learn more
 
